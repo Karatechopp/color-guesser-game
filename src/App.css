@@ -4,14 +4,25 @@ body, html, #root {
 
 .color-square {
   height: 200px;
-  width: 200px;
+  width: 350px;
   margin: 80px auto;
+}
+
+h1 {
+  text-align: center;
 }
 
 button {
   padding: 10px;
-  margin: 10px;
+  margin: 5px;
   font-size: 20px;
+  border: solid rgb(255, 255, 255);
+  border-radius: 10px;
+  background-color: rgb(106, 172, 248);
+}
+
+button:active {
+  border: solid black;
 }
 
 .center-div {
@@ -24,13 +35,19 @@ button {
 }
 
 .wrong {
-  font-size: 24px;
+  background-color: rgb(255, 227, 227);
+  font-size: 30px;
   color: red;
   text-align: center;
 }
 
 .correct {
-  font-size: 24px;
+  background-color: rgb(215, 245, 230);
+  font-size: 30px;
   color: green;
   text-align: center;
+}
+
+.wrong, .correct {
+  margin-top: 10px;
 }

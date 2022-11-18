@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
+
+
 function App() {
 
   const [actualBoxColor, setColor] = useState("");
   const [answers, setAnswer] = useState<string[]>([]);
   const [result, setresult] = useState<Result | undefined>(undefined);
+  const [rightAnswerCounter, setRightAnswerCounter] = useState(0);
 
-  const generateColors = () => {
-    const correctAnswerColor = getRandomNumberString()
-    setColor(correctAnswerColor);
-    setAnswer([correctAnswerColor, getRandomNumberString(),getRandomNumberString(), getRandomNumberString()].sort(() => 0.5 - Math.random()));
+  enum Result {
+    Correct,
+    Wrong,
   }
 
+  useEffect(() => {
+    generateColors();
+    }, []);
+  
 
   function getRandomNumberString(base: number = 16, length: number = 6) {
     const max = Math.pow(base, length)
@@ -22,30 +28,41 @@ function App() {
     return "#" + hexString.toUpperCase();
 }
 
-useEffect(() => {
-  generateColors();
-  }, []);
 
+const generateColors:any = () => {
+  const correctAnswerColor = getRandomNumberString()
+  setColor(correctAnswerColor);
+  setAnswer([correctAnswerColor, getRandomNumberString(), getRandomNumberString()].sort(() => 0.5 - Math.random()));
+}
+
+
+
+
+  const incrementCount = () => {
+    // Update state with incremented value
+    setRightAnswerCounter(rightAnswerCounter + 1);
+  };
   
   const handleAnswerClick = (answer: string) => {
+    
     if (answer === actualBoxColor) {
       // right answer
+      incrementCount();
       setresult(Result.Correct);
       generateColors();
     }
     else {
       // wrong answer
       setresult(Result.Wrong);
+      setRightAnswerCounter(0);
     }
   }
 
-  enum Result {
-    Correct,
-    Wrong,
-  }
+ 
 
   return (
     <div className="App">
+    <h1>Hex guessing game</h1>
      <div className='color-square' style={{ background: actualBoxColor }}></div>
      <div className='center-div'>
         {answers.map(answer => (
@@ -53,8 +70,8 @@ useEffect(() => {
         ))}
      </div>
      {result === Result.Wrong && <div className='wrong'>Wrong answer</div>}
-     {result === Result.Correct && <div className='correct'>Correct Answer</div>}
-    </div>
+     {result === Result.Correct && <div className='correct'>Correct Answer! {rightAnswerCounter}</div>}
+     </div>
   );
 }
 
